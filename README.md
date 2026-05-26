@@ -1,70 +1,56 @@
-# PET/CT Dataset for Dual-task Prediction of EGFR Mutation Status and Pathological Subtype in NSCLC
+# Feature-selected PET/CT Radiomics Dataset for NSCLC Prediction Tasks
 
 ## Overview
+The files provided in this repository are feature-selected matrices used for model construction, not raw PET/CT imaging data.
+This repository provides the feature-selected data matrices used in our study on dual-modal PET/CT-based prediction of EGFR mutation status and pathological subtype in non-small cell lung cancer (NSCLC).
 
-This repository provides the dataset documentation and metadata used in our study on dual-modal PET/CT-based prediction of pathological subtypes and EGFR mutation status in non-small cell lung cancer (NSCLC).
+The data in this repository are not raw PET/CT images. Instead, they consist of processed and feature-selected radiomic, metabolic, and clinical variables used for model construction and evaluation.
 
-The study included 384 patients with pathologically confirmed NSCLC from three independent retrospective cohorts. CT images were used to extract sub-regional radiomic features, while PET images were used to characterize spatial metabolic heterogeneity. These data were used to develop and validate a Dual-Modal Dual-task Prediction (DMDP) model for simultaneous prediction of EGFR mutation status and pathological subtype.
+In the original study, PET-derived features, CT radiomic features, and clinical variables were extracted from NSCLC patients across three retrospective cohorts. Feature selection was performed separately for two prediction tasks:
 
-Due to patient privacy and institutional restrictions, raw PET/CT images and identifiable clinical information are not publicly released in this repository. Only de-identified metadata, feature descriptions, data organization information, and usage instructions are provided.
+1. EGFR mutation prediction
+2. Pathological subtype classification
 
-## Dataset Description
+For PET features, Recursive Feature Elimination with Cross-Validation (RFECV) was used to identify the optimal feature subset. For CT radiomic features, a two-step feature selection strategy was adopted. First, the Minimum Redundancy Maximum Relevance (mRMR) algorithm was used to retain the top-ranked features. Subsequently, least absolute shrinkage and selection operator (LASSO) regression was applied, and features with non-zero coefficients were retained for model construction.
 
-The dataset consists of paired PET/CT imaging-derived features from 384 NSCLC patients. Each patient was associated with two prediction labels:
-
-1. EGFR mutation status
-2. Pathological subtype
-
-The dataset was divided into three independent cohorts for model development and validation.
-
-## Data Modalities
-
-- CT imaging features: sub-regional radiomic features extracted from tumor regions.
-- PET imaging features: metabolic parameters and spatial heterogeneity descriptors.
-- Clinical labels: EGFR mutation status and pathological subtype.
-- Cohort information: training, validation, or external testing cohort.
-
-## File Structure
+## Data Files
 
 | File | Description |
 |---|---|
-| `metadata.csv` | De-identified patient-level metadata |
-| `ct_radiomics_features.csv` | CT-derived sub-regional radiomic features |
-| `pet_metabolic_features.csv` | PET-derived metabolic and heterogeneity features |
-| `labels.csv` | Prediction labels including EGFR mutation status and pathological subtype |
-| `cohort_split.csv` | Cohort assignment for training, validation, and testing |
+| `PET_clinical_selected_feature_matrix.xlsx` | Feature-selected PET-derived metabolic heterogeneity features combined with clinical variables. |
+| `EGFR mutation prediction CT feature.xlsx` | Selected CT radiomic feature matrix for EGFR mutation prediction. |
+| `Pathological subtype classification CT feature.xlsx` | Selected CT radiomic feature matrix for pathological subtype classification. |
 
-## Variable Description
+## Feature Selection Strategy
 
-| Variable | Description |
-|---|---|
-| `patient_id` | De-identified patient identifier |
-| `cohort` | Cohort assignment |
-| `egfr_status` | EGFR mutation status |
-| `pathological_subtype` | Pathological subtype of NSCLC |
-| `ct_feature_*` | CT-derived radiomic features |
-| `pet_feature_*` | PET-derived metabolic or heterogeneity features |
+Feature selection was performed independently for the EGFR mutation prediction task and the pathological subtype classification task.
+
+For PET features, RFECV was applied to reduce the initial PET feature set. The initial 20 PET features were reduced to 6 features for EGFR mutation prediction and 5 features for pathological subtype classification.
+
+For CT radiomic features, mRMR was first used to screen 130 candidate CT features, and the top 20 features were retained for each region-specific feature set. LASSO regression was then used for further dimensionality reduction, and only features with non-zero coefficients were retained.
+
+For EGFR mutation prediction, the final CT_reg1, CT_reg2, CT_reg5, CT_reg6, and CT_reg_all feature sets contained 8, 2, 5, 6, and 7 features, respectively. The PET-clinical and PET-CT-clinical feature sets contained 9 and 19 features, respectively.
+
+For pathological subtype classification, the final CT_reg1, CT_reg2, CT_reg5, CT_reg6, and CT_reg_all feature sets contained 5, 7, 5, 6, and 9 features, respectively. The PET-clinical and PET-CT-clinical feature sets contained 8 and 13 features, respectively.
 
 ## Intended Use
 
-This dataset was used for developing and validating a dual-modal dual-task deep learning model for:
+These feature matrices were used for developing and evaluating machine learning and deep learning models for:
 
 - EGFR mutation status prediction
-- Pathological subtype prediction
+- Pathological subtype classification
 - PET/CT multimodal feature fusion
-- Radiomics and metabolic heterogeneity analysis
-- Model interpretability analysis using Grad-CAM
+- Radiomics-based model construction
+- Comparative analysis of different feature combinations
 
-The dataset is intended for academic and research purposes only.
+## Data Privacy Statement
 
-## Data Privacy and Ethics
+All data have been de-identified before sharing. The files in this repository do not contain raw PET/CT images, DICOM files, patient names, hospital IDs, examination IDs, or other direct personal identifiers.
 
-All patient-related data were retrospectively collected and de-identified before analysis. Direct personal identifiers, including name, hospital ID, examination ID, date of birth, and contact information, were removed or anonymized.
-
-Raw PET/CT images are not publicly available in this repository due to patient privacy protection and institutional data-sharing restrictions. Access to the original imaging data may be subject to institutional review board approval and data use agreements.
+The shared files only contain processed feature matrices used for model development. The original imaging data are not publicly available due to patient privacy protection and institutional data-sharing restrictions.
 
 ## Citation
 
-If you use this dataset description, feature structure, or related code, please cite the associated manuscript:
+If you use these feature matrices or refer to this dataset structure, please cite the associated manuscript:
 
 [Manuscript information to be added after publication]

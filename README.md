@@ -21,17 +21,6 @@ For PET features, Recursive Feature Elimination with Cross-Validation (RFECV) wa
 | `EGFR mutation prediction CT feature.xlsx` | Selected CT radiomic feature matrix for EGFR mutation prediction. |
 | `Pathological subtype classification CT feature.xlsx` | Selected CT radiomic feature matrix for pathological subtype classification. |
 
-## Feature Selection Strategy
-
-Feature selection was performed independently for the EGFR mutation prediction task and the pathological subtype classification task.
-
-For PET features, RFECV was applied to reduce the initial PET feature set. The initial 20 PET features were reduced to 6 features for EGFR mutation prediction and 5 features for pathological subtype classification.
-
-For CT radiomic features, mRMR was first used to screen 130 candidate CT features, and the top 20 features were retained for each region-specific feature set. LASSO regression was then used for further dimensionality reduction, and only features with non-zero coefficients were retained.
-
-For EGFR mutation prediction, the final CT_reg1, CT_reg2, CT_reg5, CT_reg6, and CT_reg_all feature sets contained 8, 2, 5, 6, and 7 features, respectively. The PET-clinical and PET-CT-clinical feature sets contained 9 and 19 features, respectively.
-
-For pathological subtype classification, the final CT_reg1, CT_reg2, CT_reg5, CT_reg6, and CT_reg_all feature sets contained 5, 7, 5, 6, and 9 features, respectively. The PET-clinical and PET-CT-clinical feature sets contained 8 and 13 features, respectively.
 
 ## Intended Use
 
